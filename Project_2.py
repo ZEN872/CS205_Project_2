@@ -4,10 +4,10 @@ import numpy as np
 
 #define data set 
 #Small Data Set 
-df = pd.read_csv("CS205_small_Data__28.txt", delim_whitespace=True)
+#df = pd.read_csv("CS205_small_Data__28.txt", delim_whitespace=True)
 
 #Large Data Set 
-#df = pd.read_csv("CS205_large_Data__46.txt")
+df = pd.read_csv("CS205_large_Data__46.txt", delim_whitespace=True)
 
 #Basic Test:
 #print("Columns:", df.columns)
