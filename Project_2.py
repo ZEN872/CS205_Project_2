@@ -69,11 +69,15 @@ def Featsure_search(data):
         Currnet_Elements_section.append(feature_to_add)
         print(Currnet_Elements_section)
         print('On level ', number, "'th adding feture", feature_to_add, "to current set ")
-        results = results.append([ Currnet_Elements_section, best_accuracy ])
+        results.append([Currnet_Elements_section.copy(), best_accuracy])  
         print("--------------------------------------------------------")
-    print(results)
+
+    for entry in results:
+        features, accuracy = entry
+        print("{:<40} {:.4f}".format(str(features), accuracy))
 
 
 
+#df =df[1:10]
 Featsure_search(df)
 print()
