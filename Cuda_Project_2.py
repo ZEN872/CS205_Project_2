@@ -15,38 +15,45 @@ df = pd.read_csv("CS205_small_Data__28.txt", delim_whitespace=True)
 #print("Number of columns:", len(df.columns))
 #print(df)
 
+
 def leave_1_out_cross_vaidation(Data, Current_set, k):
-    #value = random.randint(1, 10)
     data_c = Data.copy()
     keep_columns = [0] + [data_c.columns.get_loc(col) for col in Current_set + [k]]
     columns_to_zero = [i for i in range(data_c.shape[1]) if i not in keep_columns]
     data_c.iloc[:, columns_to_zero] = 0
     data_c = data_c.loc[:, (data_c != 0).any(axis=0)]
-    #print(columns_to_zero)
-    #print(data_c)
 
-    number_correctly_classifed = 0 
-    for i in range(len(data_c)):
-        object_to_classify = data_c.iloc[i, 1:]  # All columns except the first
-        label_object_to_classify = data_c.iloc[i, 0]  # First column (label)
-        
-        nearest_neighbor_distance = float('inf')
-        nearest_neighbor_location = float('inf')
+    # Convert to PyTorch and move to GPU
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    data_tensor = torch.tensor(data_c.values, dtype=torch.float32).to(device)
 
-        for k in range (len(data_c)):
-            if k != i:
-                comparison_object = data_c.iloc[k, 1:].to_numpy()
-                distance = np.sqrt(np.sum((object_to_classify - comparison_object) ** 2))
+    number_correctly_classified = 0
 
-                if distance < nearest_neighbor_distance:
-                    nearest_neighbor_distance = distance
-                    nearest_neighbor_location = k
-                    nearest_neighbor_label = data_c.iloc[nearest_neighbor_location, 0]
-        if label_object_to_classify == nearest_neighbor_label:
-                number_correctly_classifed = number_correctly_classifed + 1
-    #return value
-    accuracy = number_correctly_classifed / len(data_c)
+    for i in range(len(data_tensor)):
+        object_to_classify = data_tensor[i, 1:]  # Exclude label
+        label = data_tensor[i, 0]
+
+        # Mask to exclude current object
+        mask = torch.ones(len(data_tensor), dtype=torch.bool, device=device)
+        mask[i] = False
+
+        others = data_tensor[mask]
+        labels = others[:, 0]
+        features = others[:, 1:]
+
+        # Compute L2 distances
+        dists = torch.norm(features - object_to_classify, dim=1)
+        min_idx = torch.argmin(dists)
+        nearest_label = labels[min_idx]
+
+        if label == nearest_label:
+            number_correctly_classified += 1
+
+    accuracy = number_correctly_classified / len(data_tensor)
     return accuracy
+
+
+
 
 #forward Section: 
 def Forward_search(data): 
