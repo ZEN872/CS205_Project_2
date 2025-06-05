@@ -1,6 +1,7 @@
 import pandas as pd
 import random
 import numpy as np
+import torch 
 
 #define data set 
 #Small Data Set 
@@ -47,10 +48,8 @@ def leave_1_out_cross_vaidation(Data, Current_set, k):
     accuracy = number_correctly_classifed / len(data_c)
     return accuracy
 
-
-
-
-def Featsure_search(data): 
+#forward Section: 
+def Forward_search(data): 
     number = 0
     results =[]
     Currnet_Elements_section = []
@@ -77,7 +76,53 @@ def Featsure_search(data):
         print("{:<40} {:.4f}".format(str(features), accuracy))
 
 
+##########################################
+def Backward_search(data): 
+    number = 0
+    results =[]
+    Currnet_Elements_section = data.columns[1:] ##Change
+    for col in data.columns[1:]:
+    #while len(Currnet_Elements_section > 1)
+        number = number + 1
+        feature_to_remove = 0
+        best_accuracy = 0
+        print("on level ", number ,"th level of search tree")
+        for k in data.columns[1:]:
+            temp_set = Currnet_Elements_section.copy()
+            if k in Currnet_Elements_section:
+                print("--consider removing feature", k)
+                temp_set = [x for x in Currnet_Elements_section if x != k]
 
-#df =df[1:10]
-Featsure_search(df)
+                if(col != 1 and len(temp_set) > 1):
+                    top_value = Currnet_Elements_section[1] 
+                    temp_set = [x for x in Currnet_Elements_section if x != top_value]
+                    accuracy = leave_1_out_cross_vaidation(data,temp_set, top_value)
+                else:
+                    accuracy = leave_1_out_cross_vaidation(data,temp_set, k)
+                #accuracy = leave_1_out_cross_vaidation(data,temp_set, top_value)
+                if accuracy > best_accuracy : 
+                    best_accuracy = accuracy
+                    feature_to_remove = k
+        print(Currnet_Elements_section)
+        print('On level ', number, "'th Removing feture", feature_to_remove, "to current set ")
+        results.append([Currnet_Elements_section.copy(), best_accuracy])  
+        Currnet_Elements_section = [x for x in Currnet_Elements_section if x != feature_to_remove]
+        print("--------------------------------------------------------")
+
+    for entry in results:
+        features, accuracy = entry
+        print("{:<40} {:.4f}".format(str(features), accuracy))
+
+#####################################################################
+
+
+
+
+#backwords Selections 
+#start with all elements then remove one. 
+
+
+#df =df[1:100]
+Forward_search(df)
+Backward_search(df)
 print()
