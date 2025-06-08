@@ -3,9 +3,12 @@
 For this project, I ran the cod using WSL and python3. I set up a viral environment that used PyTorch and CUDA to increase the speed of the code. 
 
 # Set UP environment 
-*Requires NVIDIA GPU*
+*To set the environment will require NVIDIA GPU and CUDA installation*
+
+The command below shows how to create the virtual environment: 
 
 python3 -m venv myenv
+
 source myenv/bin/activate
 
 pip install --upgrade pip
