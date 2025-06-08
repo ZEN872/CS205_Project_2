@@ -7,8 +7,11 @@ For this project, I ran the cod using WSL and python3. I set up a viral environm
 
 python3 -m venv myenv
 source myenv/bin/activate
+
 pip install --upgrade pip
+
 pip install torch torchvision torchaudio
+
 pip3 install pandas
 
 # Launch the Code:
