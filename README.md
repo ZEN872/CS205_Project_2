@@ -2,7 +2,7 @@
 
 For this project, I ran the cod using WSL and python3. I set up a viral environment that used PyTorch and CUDA to increase the speed of the code. 
 
-#Set UP environment 
+# Set UP environment 
 *Requires NVIDIA GPU*
 
 python3 -m venv myenv
