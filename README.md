@@ -15,6 +15,6 @@ pip3 install pandas
 
 To launch the code, you will use this command: *python3 Cuda_Project_2.py*
 
-#Source of UCI Data set 
+# Source of the UCI dataset 
 
 That Rocket League data set is originally for this repo: https://github.com/Romathonat/RocketLeagueSkillsDetection
