@@ -11,11 +11,8 @@ pip install --upgrade pip
 pip install torch torchvision torchaudio
 pip3 install pandas
 
-#lauch the Code:
+# Launch the Code:
 
 To launch the code, you will use this command: *python3 Cuda_Project_2.py*
-
-
-
 
 That Rocket League data set is originally for this repo: https://github.com/Romathonat/RocketLeagueSkillsDetection
