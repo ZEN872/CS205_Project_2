@@ -1,4 +1,4 @@
-# CS205_Project_2
+# CS205_Project_2 - K Nearest Neighbor
 
 For this project, I ran the cod using WSL and python3. I set up a viral environment that used PyTorch and CUDA to increase the speed of the code. 
 
